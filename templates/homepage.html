@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="home">
+<div class="jumbotron jumbotron-fluid">
+  <h1 class="text-center">Product Analyser</h1><br>
+  <p class="text-center">Get realtime overview of any product</p>
+  <br><br>
+
+  <!-- # Search bar -->
+    <div class="row">
+    <div class="col-xs-8 col-xs-offset-2 text-center">
+    <form action="/search" method="GET">
+      <div class="form-inline">
+        <input class="form-control input-lg" name="query" type="text" placeholder="Search for a product">
+        <button type="submit" class="btn btn-primary btn-lg">Search</button>
+      </div>
+    </form>
+    </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
