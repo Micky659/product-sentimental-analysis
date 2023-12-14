@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-import psycopg2
+import os
 db = SQLAlchemy()
 
 
@@ -38,10 +38,11 @@ class User(db.Model):
         db.session.commit()
 
 
-def connect_to_db(app, db_uri="postgresql://postgres:Fullmetal@localhost:5432/product"):
+def connect_to_db(app,db_uri ):
     """Connect the database to Flask app."""
 
     # Configure to use PostgreSQL database
+    
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     db.app = app
     db.init_app(app)
