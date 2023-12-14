@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template, redirect, request, flash, session, jsonify
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 import json
 
@@ -106,13 +106,15 @@ def search_products():
     search_query = request.args.get('query')
 
     print("---------- Started Scraping Reviews ----------")
+    reviews, ratings = start_scraping(search_query, 10)
     product = search_query.split('/')[3]
-    reviews, ratings = start_scraping(search_query, 300)
+
 
     print("---------- Analysing Reviews ----------")
-
+    print(reviews)
     sentiments_list, score_list, words = prediction(reviews)
 
+    print(score_list)
     score = sum(score_list)/len(score_list)
 
     json_data = {
@@ -156,8 +158,9 @@ def product_reviews_data():
 
 if __name__ == "__main__":
     app.jinja_env.auto_reload = app.debug
-
-    connect_to_db(app)
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    db_uri='sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+    connect_to_db(app,db_uri)
 
     # Use the DebugToolbar
     # DebugToolbarExtension(app)

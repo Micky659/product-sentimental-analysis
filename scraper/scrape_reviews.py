@@ -4,8 +4,9 @@ import requests
 
 def get_soup(url):
     header = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko)'
-                      'Chrome/90.0.4430.212 Safari/537.36'}
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36',
+        'Accept-Language': 'en-US, en;q=0.5'
+                      }
     response = requests.get(url, headers=header)
     soup = bs(response.content, 'html.parser')
     return soup
@@ -30,7 +31,7 @@ def start_scraping(url, pagecount):
     url = url.replace("dp", "product-reviews")
     loc = url.find("ref")
     url_final = url[:loc] + "/ref=cm_cr_arp_d_paging_btm_next_2?ie=UTF8&reviewerType=all_reviews&pageNumber="
-    for x in range(10, pagecount+10):
+    for x in range(1, pagecount):
         soup = get_soup(f'{url_final}{x}')
 
         review, rating = get_reviews(soup)
