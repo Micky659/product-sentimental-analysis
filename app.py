@@ -5,7 +5,7 @@ from flask import Flask, render_template, redirect, request, flash, session, jso
 from jinja2 import StrictUndefined
 import json
 
-from scraper.scrape_reviews import start_scraping
+from scraper.scrape_review_selenium import start_scraping
 from model.predict import prediction
 from database.user_db import connect_to_db, User
 
@@ -106,7 +106,7 @@ def search_products():
     search_query = request.args.get('query')
 
     print("---------- Started Scraping Reviews ----------")
-    reviews, ratings = start_scraping(search_query, 10)
+    reviews= start_scraping(search_query, 4)
     product = search_query.split('/')[3]
 
 
