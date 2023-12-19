@@ -24,7 +24,7 @@ def start_scraping(url,pagecount=10):
     url = url.replace("dp", "product-reviews")
     loc = url.find("ref")
     inital_page_ref = "ref=cm_cr_dp_d_show_all_btm"
-    url_final = url[:loc] + f"/{inital_page_ref}?ie=UTF8&reviewerType=all_reviews&pageNumber="
+    url_final = url[:loc] + f"/{inital_page_ref}?ie=UTF8&reviewerType=all_reviews&sortBy=recent&pageNumber="
     driver = webdriver.Firefox()
     new_page = url_final+f'{1}'
     for x in range(2, pagecount):
@@ -39,7 +39,7 @@ def start_scraping(url,pagecount=10):
         except:
             pass
         paging_ref = f'ref=cm_cr_getr_d_paging_btm_next_{x}'
-        new_page = url[:loc] + f"/{paging_ref}?ie=UTF8&reviewerType=all_reviews&pageNumber={x}"
+        new_page = url[:loc] + f"/{paging_ref}?ie=UTF8&reviewerType=all_reviews&sortBy=recent&pageNumber={x}"
     driver.close()
     return review_set
 

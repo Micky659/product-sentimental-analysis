@@ -8,7 +8,7 @@ import json
 from scraper.scrape_review_selenium import start_scraping
 from model.predict import prediction
 from database.user_db import connect_to_db, User
-
+import math
 
 app = Flask(__name__)
 
@@ -116,6 +116,20 @@ def search_products():
 
     print(score_list)
     score = sum(score_list)/len(score_list)
+    max_score=0
+    min_score = math.inf
+    top_neg_review=""
+    top_pos_review=""
+    for count,review in enumerate(reviews):
+        if len(review)<=10:
+            continue
+        if score_list[count] <min_score:
+            
+                top_neg_review=review
+                min_score=score_list[count]
+        elif score_list[count] >max_score:
+            top_pos_review=review
+            max_score=score_list[count]
 
     json_data = {
         "reviews": reviews,
@@ -124,8 +138,8 @@ def search_products():
         "words": words,
         "numpos": sentiments_list.count('Positive'),
         "numneg": sentiments_list.count('Negative'),
-        "toppos": reviews[score_list.index(max(score_list))],
-        "topneg": reviews[score_list.index(min(score_list))]
+        "toppos": top_pos_review,
+        "topneg": top_neg_review
     }
 
     with open('output.json', 'w+') as f:
